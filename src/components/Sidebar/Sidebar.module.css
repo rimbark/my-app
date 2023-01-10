@@ -1,0 +1,13 @@
+.friendsBar {
+    grid-area: s;
+    background-color: dodgerblue;
+    padding-top: 10px;
+}
+
+.blocker {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    row-gap: 10px;
+    flex-wrap: wrap;
+}
