@@ -1,5 +1,3 @@
-.messagesArea {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.placement {
+    padding: 0 10px 10px 0;
 }

@@ -22,7 +22,28 @@
 }
 
 .dialogView {
+    padding: 5px;
+    border: 1px solid blue;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     column-gap: 10px;
+}
+
+.messagesArea {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: end;
+    border: 1px solid mediumpurple;
+}
+
+.sentMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 5px;
+}
+
+.sentMessage button {
+    background-color: mediumpurple;
 }
