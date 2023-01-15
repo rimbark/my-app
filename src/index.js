@@ -1,7 +1,7 @@
-import reportWebVitals from './reportWebVitals';
-import state from "./redux/state";
-import {reRenderPage} from "./render";
+import reportWebVitals from './reportWebVitals'
+import state from './redux/state'
+import { reRenderPage } from './render'
 
-reRenderPage(state);
+reRenderPage(state)
 
-reportWebVitals();
+reportWebVitals()
