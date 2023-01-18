@@ -1,35 +1,33 @@
 import React from 'react'
-import s from './Dialogs.module.css'
+import style from './Dialogs.module.css'
 import MessageItem from './Message/MessageItem'
 import DialogItem from './DialogItem/DialogItem'
-import { addMessageActionCreator, updateMessageActionCreator } from '../../redux/messagesReducer'
 
 const Dialogs = (props) => {
-  const dialogsElements = props.messagesPage.dialogs.map(d => <DialogItem name={d.name} avatar={d.avatar}/>)
-  const messagesElement = props.messagesPage.messages.map(m => <MessageItem message={m.message}/>)
+  const dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} avatar={d.avatar}/>)
+  const messagesElement = props.messages.map(m => <MessageItem message={m.message}/>)
 
-  const sentMessage = () => {
-    // eslint-disable-next-line no-debugger
+  const onSendMessage = () => {
     debugger
-    props.dispatch(addMessageActionCreator())
+    props.sendMessage()
   }
 
   const onMessageTextChange = (e) => {
     const text = e.target.value
-    props.dispatch(updateMessageActionCreator(text))
+    props.messageTextChange(text)
   }
 
   return (
-    <div className={s.dialogs}>
+    <div className={style.dialogs}>
       <div>
         {dialogsElements}
       </div>
-      <div className={s.messagesArea}>
+      <div className={style.messagesArea}>
         {messagesElement}
-        <div className={s.sentMessage}>
+        <div className={style.sentMessage}>
                     <textarea onChange={onMessageTextChange}
-                              value={props.messagesPage.newOutputMessage}/>
-          <button onClick={sentMessage}>Push me to sent message</button>
+                              value={props.newPost}/>
+          <button onClick={onSendMessage}>Push me to sent message</button>
         </div>
       </div>
     </div>

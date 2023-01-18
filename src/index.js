@@ -1,19 +1,25 @@
 import reportWebVitals from './reportWebVitals'
-import store from './redux/store'
+import { store } from './redux/redux-store'
 import ReactDOM from 'react-dom/client'
 import React from 'react'
 import App from './App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-const renderPage = (store) => {
+
+const renderPage = (state) => {
+  debugger
   root.render(
     <React.StrictMode>
-      <App store={store.getState()}
-           dispatch={store.dispatch.bind(store)}/>
+      <App state={state}/>
     </React.StrictMode>
   )
 }
 
-renderPage(store)
-store.callSubscriber(renderPage)
+renderPage(store.getState())
+
+store.subscribe(() => {
+  let state = store.getState()
+  renderPage(state)
+})
+
 reportWebVitals()

@@ -1,12 +1,12 @@
 import React from 'react'
-import s from './Sidebar.module.css'
+import style from './Sidebar.module.css'
 import FriendItem from './FriendItem/FriendItem'
 
 const Sidebar = (props) => {
-  const friendElement = props.state.friends.map(f => <FriendItem avatar={f.avatar} name={f.name}/>)
+  let friendElement = props.friends.map(f => <FriendItem avatar={f.avatar} name={f.name}/>)
   return (
-    <div className={s.friendsBar}>
-      <div className={s.blocker}>
+    <div className={style.friendsBar}>
+      <div className={style.blocker}>
         {friendElement}
       </div>
     </div>
