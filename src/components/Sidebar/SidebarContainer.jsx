@@ -1,10 +1,15 @@
 import React from 'react'
 import Sidebar from './Sidebar'
+import { connect } from 'react-redux'
 
-const SidebarContainer = (props) => {
-  debugger
-  let friends = props.state.friendsDataReducer.friends
-  return <Sidebar friends={friends}/>
+let mapStateToProps = (state) => {
+  return {
+    friends: state.friendsReducer.friends
+  }
 }
+let mapDispatchToProps = (dispatch) => {
+  return {}
+}
+let SidebarContainer = connect(mapStateToProps, mapDispatchToProps)(Sidebar)
 
 export default SidebarContainer

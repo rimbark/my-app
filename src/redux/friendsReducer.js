@@ -28,6 +28,6 @@ let initialState = {
   ]
 }
 
-let friendsDataReducer = (state = initialState, action) => { return state }
+let friendsReducer = (state = initialState, action) => { return state }
 
-export default friendsDataReducer
+export default friendsReducer

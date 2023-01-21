@@ -3,23 +3,16 @@ import { store } from './redux/redux-store'
 import ReactDOM from 'react-dom/client'
 import React from 'react'
 import App from './App'
+import { Provider } from 'react-redux'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-const renderPage = (state) => {
-  debugger
   root.render(
     <React.StrictMode>
-      <App state={state}/>
+      <Provider store={store}>
+        <App/>
+      </Provider>
     </React.StrictMode>
   )
-}
-
-renderPage(store.getState())
-
-store.subscribe(() => {
-  let state = store.getState()
-  renderPage(state)
-})
 
 reportWebVitals()

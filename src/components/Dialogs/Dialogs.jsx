@@ -4,11 +4,10 @@ import MessageItem from './Message/MessageItem'
 import DialogItem from './DialogItem/DialogItem'
 
 const Dialogs = (props) => {
-  const dialogsElements = props.dialogs.map(d => <DialogItem name={d.name} avatar={d.avatar}/>)
-  const messagesElement = props.messages.map(m => <MessageItem message={m.message}/>)
-
+  const dialogsElements = props.dialogs.map(d => <DialogItem key={d.id} name={d.name} avatar={d.avatar}/>)
+  const messagesElement = props.messages.map(m => <MessageItem key={m.id} message={m.message}/>)
+  const newText = props.newMessage
   const onSendMessage = () => {
-    debugger
     props.sendMessage()
   }
 
@@ -26,7 +25,7 @@ const Dialogs = (props) => {
         {messagesElement}
         <div className={style.sentMessage}>
                     <textarea onChange={onMessageTextChange}
-                              value={props.newPost}/>
+                              value={newText}/>
           <button onClick={onSendMessage}>Push me to sent message</button>
         </div>
       </div>

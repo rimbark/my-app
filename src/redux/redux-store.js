@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux'
 import profileReducer from './profileReducer'
 import messagesReducer from './messagesReducer'
-import friendsDataReducer from './friendsDataReducer'
+import friendsReducer from './friendsReducer'
 import { configureStore } from '@reduxjs/toolkit'
+import userReducer from './userReducer'
 
 const rootReducer = combineReducers({
-    profileReducer,
-    messagesReducer,
-    friendsDataReducer
+    profileReducer: profileReducer,
+    messagesReducer: messagesReducer,
+    friendsReducer: friendsReducer,
+    userReducer: userReducer
   }
 )
 

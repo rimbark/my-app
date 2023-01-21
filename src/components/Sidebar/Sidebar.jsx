@@ -3,7 +3,7 @@ import style from './Sidebar.module.css'
 import FriendItem from './FriendItem/FriendItem'
 
 const Sidebar = (props) => {
-  let friendElement = props.friends.map(f => <FriendItem avatar={f.avatar} name={f.name}/>)
+  let friendElement = props.friends.map(f => <FriendItem key={f.id} avatar={f.avatar} name={f.name}/>)
   return (
     <div className={style.friendsBar}>
       <div className={style.blocker}>
