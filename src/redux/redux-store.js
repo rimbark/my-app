@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
     userReducer: userReducer
   }
 )
-
 export const store = configureStore({
   reducer: rootReducer
 })
+window.store = store

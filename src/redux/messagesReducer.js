@@ -1,8 +1,7 @@
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const UPDATE_MESSAGE_BODY = 'UPDATE_MESSAGE_BODY'
-
-export const addMessageActionCreator = () => ({ type: ADD_MESSAGE })
-export const updateMessageActionCreator = (text) => ({ type: UPDATE_MESSAGE_BODY, body: text })
+export const addMessage = () => ({ type: ADD_MESSAGE })
+export const updateMessage = (text) => ({ type: UPDATE_MESSAGE_BODY, body: text })
 
 let initialState = {
   dialogs: [

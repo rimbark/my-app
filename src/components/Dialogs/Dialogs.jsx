@@ -8,12 +8,12 @@ const Dialogs = (props) => {
   const messagesElement = props.messages.map(m => <MessageItem key={m.id} message={m.message}/>)
   const newText = props.newMessage
   const onSendMessage = () => {
-    props.sendMessage()
+    props.addMessage()
   }
 
   const onMessageTextChange = (e) => {
     const text = e.target.value
-    props.messageTextChange(text)
+    props.updateMessage(text)
   }
 
   return (

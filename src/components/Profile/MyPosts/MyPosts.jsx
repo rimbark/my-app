@@ -3,7 +3,6 @@ import style from './MyPosts.module.css'
 import Post from './Post/Post'
 
 const MyPosts = (props) => {
-  debugger
   const postsElements = props.posts.map(p => <Post key={p.id} message={p.post} likes={p.likesCount}/>)
   const newText = props.newPost
 
@@ -13,7 +12,7 @@ const MyPosts = (props) => {
 
   const onPostChange = (e) => {
     const text = e.target.value
-    props.postChange(text)
+    props.updatePost(text)
   }
 
   return (

@@ -27,9 +27,11 @@
     font-size: 22px;
     font-weight: bolder;
     margin: 0 5px;
+    cursor: pointer;
 }
 
 .commonPage {
     font-size: 20px;
     margin: 0 5px;
+    cursor: pointer;
 }
