@@ -22,3 +22,14 @@
     flex-direction: column;
     justify-content: space-around;
 }
+
+.selectedPage {
+    font-size: 22px;
+    font-weight: bolder;
+    margin: 0 5px;
+}
+
+.commonPage {
+    font-size: 20px;
+    margin: 0 5px;
+}
