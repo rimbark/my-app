@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  follow,
+  follow, sendingFollowedData,
   setCurrentPage, setToggle,
   setTotalUsersCount,
   setUsers,
@@ -8,25 +8,25 @@ import {
 } from '../../redux/userReducer'
 import Users from './Users'
 import { connect } from 'react-redux'
-import axios from 'axios'
 import Preloader from '../common/preloader/Preloader'
+import { userDataAPI } from '../../api/api'
 
 class UsersContainer extends React.Component {
   componentDidMount () {
     this.props.setToggle(true)
-    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
+    userDataAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
       this.props.setToggle(false)
-      this.props.setUsers(response.data.items)
-      this.props.setTotalUsersCount(response.data.totalCount)
+      this.props.setUsers(data.items)
+      this.props.setTotalUsersCount(data.totalCount)
     })
   }
 
   onPageChanged = (pageNumber) => {
     this.props.setCurrentPage(pageNumber)
     this.props.setToggle(true)
-    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then(response => {
+    userDataAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
       this.props.setToggle(false)
-      this.props.setUsers(response.data.items)
+      this.props.setUsers(data.items)
     })
   }
 
@@ -39,7 +39,9 @@ class UsersContainer extends React.Component {
              follow={this.props.follow}
              unFollow={this.props.unFollow}
              onPageChanged={this.onPageChanged}
-             users={this.props.users}/>
+             users={this.props.users}
+             sendingFollowedData={this.props.sendingFollowedData}
+             sendingDataInProgress={this.props.sendingDataInProgress}/>
         }
     </>
   }
@@ -51,8 +53,9 @@ const mapStateToProps = (state) => {
     pageSize: state.userReducer.pageSize,
     totalUsersCount: state.userReducer.totalUsersCount,
     currentPage: state.userReducer.currentPage,
-    isFetching: state.userReducer.isFetching
+    isFetching: state.userReducer.isFetching,
+    sendingDataInProgress: state.userReducer.sendingDataInProgress
   }
 }
 
-export default connect(mapStateToProps, { follow, unFollow, setUsers, setCurrentPage, setTotalUsersCount, setToggle })(UsersContainer)
+export default connect(mapStateToProps, { follow, sendingFollowedData, unFollow, setUsers, setCurrentPage, setTotalUsersCount, setToggle })(UsersContainer)

@@ -1,8 +1,28 @@
 .header {
-    grid-area: h;
     background-color: bisque;
+    display: flex;
+    justify-content: space-between;
 }
 
 .header img {
     width: 60px;
+}
+
+.auth {
+    float: right;
+    width: 60px;
+    height: 60px;
+    background-color: darkorange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.authContainer {
+    grid-area: h;
+}
+
+.loginField {
+    display: grid;
+    grid-template-columns: auto auto;
 }

@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: column;
-    border: 1px solid darkorange;
+    width: 1000px;
 }
 
 .wrapper {
