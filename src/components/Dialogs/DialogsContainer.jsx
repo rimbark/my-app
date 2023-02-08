@@ -1,7 +1,9 @@
 import React from 'react'
-import { addMessage, updateMessage } from '../../redux/messagesReducer'
+import { addMessage } from '../../redux/messagesReducer'
 import Dialogs from './Dialogs'
 import { connect } from 'react-redux'
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
+import { compose } from 'redux'
 
 const matStateToProps = (state) => {
   return {
@@ -11,6 +13,4 @@ const matStateToProps = (state) => {
   }
 }
 
-const DialogsContainer = connect(matStateToProps, { updateMessage, addMessage })(Dialogs)
-
-export default DialogsContainer
+export default compose(connect(matStateToProps, { addMessage }), withAuthRedirect)(Dialogs)

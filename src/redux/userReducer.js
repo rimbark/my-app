@@ -1,17 +1,61 @@
+import { userDataAPI } from '../api/api'
+
 const FOLLOW = 'FOLLOW'
+const followProgress = (userId) => ({ type: FOLLOW, userId })
+
 const UNFOLLOW = 'UNFOLLOW'
+export const unfollowProgress = (userId) => ({ type: UNFOLLOW, userId })
+
 const SET_USERS = 'SET_USERS'
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
-const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
-const SENDING_DATA_IN_PROGRESS = 'SENDING_DATA_IN_PROGRESS'
-export const follow = (userId) => ({ type: FOLLOW, userId })
-export const unFollow = (userId) => ({ type: UNFOLLOW, userId })
 export const setUsers = (users) => ({ type: SET_USERS, users })
+
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 export const setCurrentPage = (page) => ({ type: SET_CURRENT_PAGE, page })
+
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 export const setTotalUsersCount = (totalCount) => ({ type: SET_TOTAL_USERS_COUNT, totalCount })
+
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 export const setToggle = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching })
-export const sendingFollowedData = (isSending, userId) => ({ type: SENDING_DATA_IN_PROGRESS, isSending, userId })
+
+const SENDING_DATA_IN_PROGRESS = 'SENDING_DATA_IN_PROGRESS'
+const sendingFollowedData = (isSending, userId) => ({ type: SENDING_DATA_IN_PROGRESS, isSending, userId })
+
+export const follow = (userId) => (dispatch) => {
+    dispatch(sendingFollowedData(true, userId))
+    userDataAPI.followUser(userId).then(data => {
+      if (data.resultCode === 0)
+        dispatch(followProgress(userId))
+      dispatch(sendingFollowedData(false, userId))
+    })
+}
+
+export const unfollow = (userId) => (dispatch) => {
+   dispatch(sendingFollowedData(true, userId))
+    userDataAPI.unFollowUser(userId).then(data => {
+      if (data.resultCode === 0)
+        dispatch(unfollowProgress(userId))
+      dispatch(sendingFollowedData(false, userId))
+    })
+}
+
+export const getUsers = (currentPage, pageSize) => (dispatch) => {
+    dispatch(setToggle(true))
+    userDataAPI.getUsers(currentPage, pageSize).then(data => {
+      dispatch(setToggle(false))
+      dispatch(setUsers(data.items))
+      dispatch(setTotalUsersCount(data.totalCount))
+    })
+}
+
+export const changePage = (pageNumber, pageSize) => (dispatch) => {
+    dispatch(setCurrentPage(pageNumber))
+    dispatch(setToggle(true))
+    userDataAPI.getUsers(pageNumber, pageSize).then(data => {
+      dispatch(setToggle(false))
+      dispatch(setUsers(data.items))
+    })
+}
 
 const initialState = {
   users: [],

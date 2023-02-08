@@ -10,13 +10,35 @@ export const userDataAPI = {
     return instance.get(`users?page=${currentPage}&count=${pageSize}`)
       .then(response => {
         return response.data})
+  },
+  followUser (userId) {
+    return instance.post(`follow/${userId}`)
+      .then(response => {
+        return response.data})
+  },
+  unFollowUser (userId) {
+    return instance.delete(`follow/${userId}`)
+      .then(response => {
+        return response.data})
   }
 }
 
 export const profileDataAPI = {
-  getProfile (userId) {
+  getUserProfile (userId) {
     return instance.get(`profile/${userId}`)
       .then(response => {
+        return response.data})
+  },
+  getUserStatus (userId) {
+    return instance.get(`profile/status/${userId}`)
+      .then(response => {
+        return response.data})
+  },
+  updateUserStatus (status) {
+    debugger
+    return instance.put(`profile/status`, { status })
+      .then(response => {
+        debugger
         return response.data})
   }
 }
@@ -28,26 +50,3 @@ export const authDataAPI = {
         return response.data})
   }
 }
-
-export const followUnfollowAPI = {
-  followUser (userId) {
-    return instance.post(`follow/${userId}`, {}, {
-      withCredentials: true
-    })
-      .then(response => {
-        return response.data})
-  },
-  unFollowUser (userId) {
-    return instance.delete(`follow/${userId}`,{
-      withCredentials: true})
-      .then(response => {
-        return response.data})
-  }
-}
-
-
-
-
-
-
-

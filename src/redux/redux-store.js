@@ -5,6 +5,7 @@ import friendsReducer from './friendsReducer'
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './userReducer'
 import authReducer from './authReducer'
+import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
     profileReducer,
@@ -15,6 +16,6 @@ const rootReducer = combineReducers({
   }
 )
 export const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
+  middleware: [thunk]
 })
-window.store = store

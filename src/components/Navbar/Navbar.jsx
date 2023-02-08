@@ -1,11 +1,11 @@
 import React from 'react'
-import s from './Navbar.module.css'
+import style from './Navbar.module.css'
 import { NavLink } from 'react-router-dom'
 
-const setActive = ({ isActive }) => isActive ? s.activeLink : s.item
+const setActive = ({ isActive }) => isActive ? style.activeLink : style.item
 const Navbar = () => {
   return (
-    <nav className={s.nav}>
+    <nav className={style.nav}>
       <div>
         <NavLink to={'/profile/'} className={setActive}>
           Profile

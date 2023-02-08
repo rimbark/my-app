@@ -1,19 +1,10 @@
 import React from 'react'
 import style from './MyPosts.module.css'
 import Post from './Post/Post'
+import { PostForms } from './Post/PostForm'
 
 const MyPosts = (props) => {
   const postsElements = props.posts.map(p => <Post key={p.id} message={p.post} likes={p.likesCount}/>)
-  const newText = props.newPost
-
-  const onPostAdd = () => {
-    props.addPost()
-  }
-
-  const onPostChange = (e) => {
-    const text = e.target.value
-    props.updatePost(text)
-  }
 
   return (
     <div>
@@ -21,15 +12,7 @@ const MyPosts = (props) => {
         My post
       </h3>
       <div>
-        <div className="">
-                    <textarea onChange={onPostChange}
-                              value={newText}/>
-        </div>
-        <div className="">
-          <button onClick={onPostAdd}>
-            Put me to send
-          </button>
-        </div>
+        <PostForms addPost={props.addPost}/>
       </div>
 
       <div className=""></div>
@@ -45,5 +28,7 @@ const MyPosts = (props) => {
     </div>
   )
 }
+
+
 
 export default MyPosts

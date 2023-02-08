@@ -1,7 +1,5 @@
 export const ADD_MESSAGE = 'ADD_MESSAGE'
-export const UPDATE_MESSAGE_BODY = 'UPDATE_MESSAGE_BODY'
-export const addMessage = () => ({ type: ADD_MESSAGE })
-export const updateMessage = (text) => ({ type: UPDATE_MESSAGE_BODY, body: text })
+export const addMessage = (data) => ({ type: ADD_MESSAGE, data })
 
 let initialState = {
   dialogs: [
@@ -46,14 +44,7 @@ const messagesReducer = (state = initialState, action) => {
     case ADD_MESSAGE: {
       return {
         ...state,
-        messages: [...state.messages, { id: 7, message: state.newOutputMessage }],
-        newOutputMessage: ''
-      }
-    }
-    case UPDATE_MESSAGE_BODY: {
-      return {
-        ...state,
-        newOutputMessage: action.body
+        messages: [...state.messages, { id: 7, message: action.data.newMessageBody }],
       }
     }
     default:

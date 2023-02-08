@@ -19,7 +19,7 @@ const Header = (props) => {
           {/*  </button>*/}
           {/*</NavLink>*/}
         </div>
-        : <NavLink to={`/profile/${props.id}`}>
+        : <NavLink to={`/auth/`}>
           <div className={style.auth}>
             Login
           </div>
