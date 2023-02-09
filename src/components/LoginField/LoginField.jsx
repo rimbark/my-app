@@ -2,8 +2,11 @@ import React from 'react'
 import styles from './LoginField.module.css'
 import { useForm } from 'react-hook-form'
 import cn from 'classnames'
+import { connect } from 'react-redux'
+import { logIn, logOut } from '../../redux/authReducer'
+import { useNavigate } from 'react-router-dom'
 
-export default function LoginField () {
+export function LoginField (props) {
   const {
     register,
     formState: {
@@ -14,10 +17,13 @@ export default function LoginField () {
     reset
   }
     = useForm({
-    mode: 'all'
+    mode: 'onBlur'
   })
+  const navigate = useNavigate()
   const onSubmit = data => {
     console.log(data)
+    props.logIn(data)
+    navigate('/profile')
     reset()
   }
 
@@ -26,8 +32,8 @@ export default function LoginField () {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className={styles.inputField}>
-            <div>Login:</div>
-            <div><input className={!errors.login ? styles.valid : styles.notValidLogin} {...register('login', {
+            <div>Email:</div>
+            <div><input type={'email'} className={!errors.email ? styles.valid : styles.notValidLogin} {...register('email', {
               required: 'Requaried to feel',
               minLength: {
                 value: 5,
@@ -37,12 +43,12 @@ export default function LoginField () {
           </label>
         </div>
         <div className={styles.warningField}>
-          {errors?.login && <p>{errors?.login?.message || 'Error!!!'}</p>}
+          {errors?.email && <p>{errors?.email?.message || 'Error!!!'}</p>}
         </div>
         <div>
           <label className={styles.inputField}>
             <div>Password:</div>
-            <div><input className={cn(styles.valid, {[styles.notValidLogin]: errors.password})} {...register('password', {
+            <div><input type={'password'} className={cn(styles.valid, {[styles.notValidLogin]: errors.password})} {...register('password', {
               required: 'Requaried to feel',
               minLength: {
                 value: 5,
@@ -55,9 +61,19 @@ export default function LoginField () {
           {errors?.password && <p>{errors?.password?.message || 'Error!!!'}</p>}
         </div>
         <div>
+          <input type="checkbox" {...register('rememberMe')}/>
+          Remember me
+        </div>
+        <div>
           <input className={styles.submit} type="submit" disabled={!isValid}/>
         </div>
       </form>
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+  isAuth: state.authReducer.isAuth
+})
+
+export default connect(mapStateToProps, {logIn, logOut})(LoginField)

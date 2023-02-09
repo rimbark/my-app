@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getProfile, getStatus, updateStatus } from '../../redux/profileReducer'
 import { compose } from 'redux'
 import { withRouter } from '../../hoc/withRouter'
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 
 class ProfileContainer extends React.Component {
   componentDidMount () {

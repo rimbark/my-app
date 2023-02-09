@@ -1,14 +1,34 @@
 import { authDataAPI } from '../api/api'
 
 export const SET_USER_AUTH_DATA = 'SET_USER_AUTH_DATA'
-const usersAuth = (id, email, login) => ({ type: SET_USER_AUTH_DATA, data: { id, email, login } })
+const setUserAuthData = (id, email, login, isAuth) => ({ type: SET_USER_AUTH_DATA, payload: { id, email, login, isAuth } })
 
-export const authorization = () => {
+export const getAuthUserData = () => {
   return (dispatch) => {
     authDataAPI.getAuthData().then(data => {
       if (data.resultCode === 0) {
         const { id, email, login } = data.data
-        dispatch(usersAuth(id, email, login))
+        dispatch(setUserAuthData(id, email, login, true))
+      }
+    })
+  }
+}
+
+export const logIn = ({ email, password, rememberMe }) => {
+  return (dispatch) => {
+    authDataAPI.signIn(email, password, rememberMe).then(data => {
+      if (data.resultCode === 0) {
+        dispatch(getAuthUserData())
+      }
+    })
+  }
+}
+
+export const logOut = () => {
+  return (dispatch) => {
+    authDataAPI.signOut().then(data => {
+      if (data.resultCode === 0) {
+        dispatch(setUserAuthData(null, null, null, false))
       }
     })
   }
@@ -26,8 +46,7 @@ const authReducer = (state = initialState, action) => {
     case SET_USER_AUTH_DATA:
       return {
         ...state,
-        ...action.data,
-        isAuth: true
+        ...action.payload
       }
     default:
       return state
