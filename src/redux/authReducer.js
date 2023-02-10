@@ -1,7 +1,8 @@
 import { authDataAPI } from '../api/api'
-
 export const SET_USER_AUTH_DATA = 'SET_USER_AUTH_DATA'
 const setUserAuthData = (id, email, login, isAuth) => ({ type: SET_USER_AUTH_DATA, payload: { id, email, login, isAuth } })
+export const SET_ERROR = 'SET_ERROR'
+export const setServersError = (message) => ({type: SET_ERROR, message})
 
 export const getAuthUserData = () => {
   return (dispatch) => {
@@ -14,39 +15,46 @@ export const getAuthUserData = () => {
   }
 }
 
-export const logIn = ({ email, password, rememberMe }) => {
-  return (dispatch) => {
-    authDataAPI.signIn(email, password, rememberMe).then(data => {
-      if (data.resultCode === 0) {
-        dispatch(getAuthUserData())
-      }
-    })
-  }
-}
-
 export const logOut = () => {
   return (dispatch) => {
-    authDataAPI.signOut().then(data => {
-      if (data.resultCode === 0) {
+    authDataAPI.signOut().then(response => {
+      if (response.data.resultCode === 0) {
         dispatch(setUserAuthData(null, null, null, false))
       }
     })
   }
 }
 
+export const logIn = ({ email, password, rememberMe }) => {
+  return (dispatch) => {
+    authDataAPI.signIn(email, password, rememberMe).then(data => {
+      if (data.resultCode === 0) {
+        dispatch(getAuthUserData())
+      } else {
+        dispatch(setServersError(data.messages[0]))
+      }
+    })
+  }
+}
 const initialState = {
   id: null,
   email: null,
   login: null,
-  isAuth: false
+  isAuth: false,
+  serversError: ''
 }
-
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_AUTH_DATA:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        serversError: ''
+      }
+    case SET_ERROR:
+      return {
+        ...state,
+        serversError: action.message
       }
     default:
       return state

@@ -19,3 +19,5 @@ export const store = configureStore({
   reducer: rootReducer,
   middleware: [thunk]
 })
+
+window.state = store
