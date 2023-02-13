@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   changePage,
-  follow, getUsers,
+  follow, requestUsers,
   setCurrentPage, setToggle,
   setTotalUsersCount,
   setUsers, unfollow
@@ -9,12 +9,18 @@ import {
 import Users from './Users'
 import { connect } from 'react-redux'
 import Preloader from '../common/preloader/Preloader'
-import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
+import {
+  getCurrentPage,
+  getIsFetching,
+  getPageSize,
+  getSendingDataInProgress,
+  getTotalUsersCount, getUsers
+} from '../../redux/usersSelectors'
 
 class UsersContainer extends React.Component {
   componentDidMount () {
-    this.props.getUsers(this.props.currentPage, this.props.pageSize)
+    this.props.requestUsers(this.props.currentPage, this.props.pageSize)
   }
 
   onPageChanged = (pageNumber) => {
@@ -39,18 +45,29 @@ class UsersContainer extends React.Component {
   }
 }
 
+// const mapStateToProps = (state) => {
+//   return {
+//     users: state.userReducer.users,
+//     pageSize: state.userReducer.pageSize,
+//     totalUsersCount: state.userReducer.totalUsersCount,
+//     currentPage: state.userReducer.currentPage,
+//     isFetching: state.userReducer.isFetching,
+//     sendingDataInProgress: state.userReducer.sendingDataInProgress
+//   }
+// }
+
 const mapStateToProps = (state) => {
   return {
-    users: state.userReducer.users,
-    pageSize: state.userReducer.pageSize,
-    totalUsersCount: state.userReducer.totalUsersCount,
-    currentPage: state.userReducer.currentPage,
-    isFetching: state.userReducer.isFetching,
-    sendingDataInProgress: state.userReducer.sendingDataInProgress
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    sendingDataInProgress: getSendingDataInProgress(state)
   }
 }
 export default compose(connect(mapStateToProps, {
-  getUsers,
+  requestUsers,
   follow,
   unfollow,
   setUsers,
@@ -58,4 +75,4 @@ export default compose(connect(mapStateToProps, {
   setTotalUsersCount,
   setToggle,
   changePage
-}), withAuthRedirect)(UsersContainer)
+}))(UsersContainer)

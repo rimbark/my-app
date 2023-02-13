@@ -6,13 +6,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './userReducer'
 import authReducer from './authReducer'
 import thunk from 'redux-thunk'
+import { appReducer } from './appReducer'
 
 const rootReducer = combineReducers({
     profileReducer,
     messagesReducer,
     friendsReducer,
     userReducer,
-    authReducer
+    authReducer,
+    appReducer
   }
 )
 export const store = configureStore({

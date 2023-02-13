@@ -3,6 +3,7 @@ import styles from './LoginField.module.css'
 import { useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
 import { logIn, logOut } from '../../redux/authReducer'
+import { Navigate } from 'react-router-dom'
 
 export function LoginField (props) {
 
@@ -24,6 +25,9 @@ export function LoginField (props) {
     props.logIn(data)
     reset()
   }
+
+  if (props.isAuth)
+    return <Navigate to={'/profile/'}/>
 
   return (
     <div className={styles.wrapper}>

@@ -39,7 +39,7 @@ export const unfollow = (userId) => (dispatch) => {
     })
 }
 
-export const getUsers = (currentPage, pageSize) => (dispatch) => {
+export const requestUsers = (currentPage, pageSize) => (dispatch) => {
     dispatch(setToggle(true))
     userDataAPI.getUsers(currentPage, pageSize).then(data => {
       dispatch(setToggle(false))

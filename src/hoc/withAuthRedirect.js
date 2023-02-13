@@ -7,7 +7,8 @@ const mapStateToPropsForAuthRedirect = state => ({ isAuth: state.authReducer.isA
 export const withAuthRedirect = (Component) => {
   class RedirectComponent extends React.Component {
     render () {
-      if (!this.props.isAuth) return <Navigate to={'/auth/'}/>
+      if (!this.props.isAuth)
+        return <Navigate to={'/auth/'}/>
       return <Component {...this.props}/>
     }
   }
