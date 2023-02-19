@@ -3,8 +3,8 @@ import style from './MyPosts.module.css'
 import Post from './Post/Post'
 import { PostForms } from './Post/PostForm'
 
-const MyPosts = (props) => {
-  const postsElements = props.posts.map(p => <Post key={p.id} message={p.post} likes={p.likesCount}/>)
+const MyPosts = ({posts, addPost}) => {
+  const postsElements = posts.map(p => <Post key={p.id} message={p.post} likes={p.likesCount}/>)
 
   return (
     <div>
@@ -12,7 +12,7 @@ const MyPosts = (props) => {
         My post
       </h3>
       <div>
-        <PostForms addPost={props.addPost}/>
+        <PostForms addPost={addPost}/>
       </div>
 
       <div className=""></div>

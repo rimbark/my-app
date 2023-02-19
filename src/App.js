@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
 import { Routes, Route } from 'react-router-dom'
-import DialogsContainer from './components/Dialogs/DialogsContainer'
 import SidebarContainer from './components/Sidebar/SidebarContainer'
-import UsersContainer from './components/Users/UsersContainer'
-import ProfileContainer from './components/Profile/ProfileContainer'
-import LoginField from './components/LoginField/LoginField'
 import HeaderContainer from './components/Header/HeaderContainer'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { initializeApp } from './redux/appReducer'
 import Preloader from './components/common/preloader/Preloader'
 import { withRouter } from './hoc/withRouter'
+
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'))
+const LoginField = React.lazy(() => import('./components/LoginField/LoginField'))
 
 class App extends React.Component {
   componentDidMount () {
@@ -21,23 +22,24 @@ class App extends React.Component {
 
   render () {
     if (!this.props.initialized) {
-      debugger
       return <Preloader/>
     }
     return (
-        <div className={'app-wrapper'}>
-          <HeaderContainer/>
-          <Navbar/>
-          <SidebarContainer/>
-          <div className={'app-wrapper-content'}>
+      <div className={'app-wrapper'}>
+        <HeaderContainer/>
+        <Navbar/>
+        <SidebarContainer/>
+        <div className={'app-wrapper-content'}>
+          <Suspense fallback={<div><Preloader/></div>}>
             <Routes>
               <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
               <Route path="/dialogs/*" element={<DialogsContainer/>}/>
               <Route path="/users/*" element={<UsersContainer/>}/>
               <Route path={'/auth/*'} element={<LoginField/>}/>
             </Routes>
-          </div>
+          </Suspense>
         </div>
+      </div>
     )
   }
 }
@@ -48,4 +50,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, {initializeApp}))(App)
+  connect(mapStateToProps, { initializeApp }))(App)

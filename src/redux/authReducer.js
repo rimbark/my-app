@@ -1,39 +1,40 @@
 import { authDataAPI } from '../api/api'
+
 export const SET_USER_AUTH_DATA = 'SET_USER_AUTH_DATA'
-const setUserAuthData = (id, email, login, isAuth) => ({ type: SET_USER_AUTH_DATA, payload: { id, email, login, isAuth } })
+const setUserAuthData = (id, email, login, isAuth) => ({
+  type: SET_USER_AUTH_DATA,
+  payload: { id, email, login, isAuth }
+})
 export const SET_ERROR = 'SET_ERROR'
-export const setServersError = (message) => ({type: SET_ERROR, message})
+export const setServersError = (message) => ({ type: SET_ERROR, message })
 
 export const getAuthUserData = () => {
-  return (dispatch) => {
-    authDataAPI.getAuthData().then(data => {
-      if (data.resultCode === 0) {
-        const { id, email, login } = data.data
-        dispatch(setUserAuthData(id, email, login, true))
-      }
-    })
+  return async (dispatch) => {
+    const data = await authDataAPI.getAuthData()
+    if (data.resultCode === 0) {
+      const { id, email, login } = data.data
+      dispatch(setUserAuthData(id, email, login, true))
+    }
   }
 }
 
 export const logOut = () => {
-  return (dispatch) => {
-    authDataAPI.signOut().then(response => {
-      if (response.data.resultCode === 0) {
-        dispatch(setUserAuthData(null, null, null, false))
-      }
-    })
+  return async (dispatch) => {
+    const response = await authDataAPI.signOut()
+    if (response.data.resultCode === 0) {
+      dispatch(setUserAuthData(null, null, null, false))
+    }
   }
 }
 
 export const logIn = ({ email, password, rememberMe }) => {
-  return (dispatch) => {
-    authDataAPI.signIn(email, password, rememberMe).then(data => {
-      if (data.resultCode === 0) {
-        dispatch(getAuthUserData())
-      } else {
-        dispatch(setServersError(data.messages[0]))
-      }
-    })
+  return async (dispatch) => {
+    const data = await authDataAPI.signIn(email, password, rememberMe)
+    if (data.resultCode === 0) {
+      dispatch(getAuthUserData())
+    } else {
+      dispatch(setServersError(data.messages[0]))
+    }
   }
 }
 const initialState = {

@@ -1,6 +1,14 @@
-export const getUsers = (state) => {
+import { createSelector } from '@reduxjs/toolkit'
+
+const getUsersSelector = (state) => {
   return state.userReducer.users
 }
+
+export const getUsers = createSelector(getUsersSelector,
+  (users) => {
+  return users
+})
+
 export const getPageSize = (state) => {
   return state.userReducer.pageSize
 }

@@ -7,9 +7,7 @@ import { withRouter } from '../../hoc/withRouter'
 
 class ProfileContainer extends React.Component {
   componentDidMount () {
-    debugger
     let userId = this.props.router.params.userId
-    debugger
     if (!userId){
       userId = this.props.authUserId
       if (!userId)

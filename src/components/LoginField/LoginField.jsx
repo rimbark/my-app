@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { logIn, logOut } from '../../redux/authReducer'
 import { Navigate } from 'react-router-dom'
 
-export function LoginField (props) {
+export function LoginField ({logIn, isAuth, serversError}) {
 
   const {
     register,
@@ -17,16 +17,16 @@ export function LoginField (props) {
     reset
   }
     = useForm({
-    mode: 'onBlur'
+    mode: 'onChange'
   })
 
   const onSubmit = async data => {
     console.log(data)
-    props.logIn(data)
+    logIn(data)
     reset()
   }
 
-  if (props.isAuth)
+  if (isAuth)
     return <Navigate to={'/profile/'}/>
 
   return (
@@ -65,8 +65,8 @@ export function LoginField (props) {
         <div>
           <input className={styles.submit} type="submit" disabled={!isValid}/>
         </div>
-        {props.serversError &&
-          <div>{props.serversError}</div>
+        {serversError &&
+          <div>{serversError}</div>
         }
       </form>
     </div>

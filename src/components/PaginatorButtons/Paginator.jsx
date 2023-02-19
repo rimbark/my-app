@@ -2,31 +2,31 @@ import React from 'react'
 import style from '../Users/User/User.module.css'
 import { createPages } from '../Users/pagesCreator'
 
-const Paginator = (props) => {
+const Paginator = ({totalUsersCount, pageSize, currentPage, onPageChanged}) => {
 
-  let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+  let pagesCount = Math.ceil(totalUsersCount / pageSize)
 
   let pages = []
 
-  createPages(pages, pagesCount, props.currentPage)
+  createPages(pages, pagesCount, currentPage)
 
   return (
     <div>
       <button onClick={() => {
-        props.onPageChanged(props.currentPage > 10
-          ? props.currentPage - 10
-          : props.currentPage - (props.currentPage - 1))
+        onPageChanged(currentPage > 10
+          ? currentPage - 10
+          : currentPage - (currentPage - 1))
       }}>-10
       </button>
       {pages.map(p => {
-        return <span key={p} className={props.currentPage === p
+        return <span key={p} className={currentPage === p
           ? style.selectedPage
           : style.commonPage}
-                     onClick={() => {props.onPageChanged(p)}}>{p}</span>
+                     onClick={() => {onPageChanged(p)}}>{p}</span>
       })}
       <button onClick={() => {
-        props.onPageChanged((props.currentPage + 10) <= pagesCount
-          ? props.currentPage + 10
+        onPageChanged((currentPage + 10) <= pagesCount
+          ? currentPage + 10
           : pagesCount)
       }}>+10
       </button>
