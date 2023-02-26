@@ -24,7 +24,7 @@ export function StatusProfile (props) {
     <div>
       {!editMode &&
         <div>
-            <span onDoubleClick={activateMode}>
+            <span onDoubleClick={props.isOwner && activateMode}>
               {status || '-----'}
             </span>
         </div>}

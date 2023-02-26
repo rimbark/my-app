@@ -35,10 +35,24 @@ export const profileDataAPI = {
         return response.data})
   },
   updateUserStatus (status) {
-    debugger
     return instance.put(`profile/status`, { status })
       .then(response => {
-        debugger
+        return response.data})
+  },
+  updateUserProfile (profile) {
+    return instance.put(`profile`, profile )
+      .then(response => {
+        return response.data})
+  },
+  updateUserPhoto (photoFile) {
+    const formData = new FormData()
+    formData.append('image', photoFile)
+    return instance.put(`profile/photo`, formData, {
+      headers: {
+        'Content-type': 'multipart/form-data'
+      }
+    })
+      .then(response => {
         return response.data})
   }
 }

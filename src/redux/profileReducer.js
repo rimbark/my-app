@@ -1,13 +1,17 @@
 import { profileDataAPI } from '../api/api'
 
-export const ADD_POST = 'ADD_POST'
+const ADD_POST = 'ADD_POST'  //  redux-ducks префиксы для неповторения
 export const addPost = (data) => ({ type: ADD_POST, data })
-export const UPDATE_POST_BODY = 'UPDATE_POST_BODY'
+const UPDATE_POST_BODY = 'UPDATE_POST_BODY'
 export const updatePost = (text) => ({ type: UPDATE_POST_BODY, body: text })
-export const SET_USER_PROFILE = 'SET_USER_PROFILE'
-const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
-export const SET_STATUS = 'SET_STATUS'
+const SET_STATUS = 'SET_STATUS'
 const setStatus = (status) => ({ type: SET_STATUS, status })
+const SET_PROFILE_PHOTO = 'SET_PROFILE_PHOTO'
+const setProfilePhoto = (file) => ({ type: SET_PROFILE_PHOTO, file })
+const SET_ERRORS_FROM_API = 'SET_ERRORS_FROM_API'
+const setErrorsFromAPI = (errors) => ({ type: SET_ERRORS_FROM_API, errors })
+const SET_USER_PROFILE = 'SET_USER_PROFILE'
+const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 
 export const getProfile = (userId) => async (dispatch) => {
   const data = await profileDataAPI.getUserProfile(userId)
@@ -27,6 +31,25 @@ export const updateStatus = (status) => {
   }
 }
 
+export const updateProfileContacts = (profile) => {
+  return async (dispatch) => {
+    const data = await profileDataAPI.updateUserProfile(profile)
+    if (data.resultCode === 0) {
+      dispatch(setUserProfile(profile))
+    } else {
+      dispatch(setErrorsFromAPI(data.messages[0]))
+    }
+  }
+}
+
+export const loadPhoto = (file) => {
+  return async (dispatch) => {
+    const data = await profileDataAPI.updateUserPhoto(file)
+    if (data.resultCode === 0)
+      dispatch(setProfilePhoto(data.data.photos))
+  }
+}
+
 const initialState = {
   posts: [
     { id: 1, post: 'Hi! How are you?', likesCount: 15 },
@@ -34,7 +57,8 @@ const initialState = {
   ],
   newPost: '',
   profile: null,
-  status: ''
+  status: '',
+  errorsFromAPI: ''
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -47,7 +71,9 @@ const profileReducer = (state = initialState, action) => {
     }
     case SET_USER_PROFILE: {
       return {
-        ...state, profile: action.profile
+        ...state,
+        profile: action.profile,
+        errorsFromAPI: ''
       }
     }
     case SET_STATUS: {
@@ -55,6 +81,20 @@ const profileReducer = (state = initialState, action) => {
         ...state, status: action.status
       }
     }
+    case SET_PROFILE_PHOTO: {
+      return {
+        ...state,
+        profile: {
+          ...state.profile, photos: action.file
+        }
+      }
+    }
+    case SET_ERRORS_FROM_API: {
+      return {
+        ...state,
+        errorsFromAPI: action.errors
+        }
+      }
     default:
       return state
   }
