@@ -8,6 +8,7 @@ const ContactsEditForm = ({ profile, updateProfileContacts, setEditMode }) => {
     handleSubmit,
     reset,
     setError,
+    clearErrors,
     formState: {
       errors
     }
@@ -24,6 +25,10 @@ const ContactsEditForm = ({ profile, updateProfileContacts, setEditMode }) => {
     }
   }
 
+  const onChangeForm = () => {
+    clearErrors()
+  }
+
   useEffect(() => {
     reset(profile)
   }, [])
@@ -38,7 +43,7 @@ const ContactsEditForm = ({ profile, updateProfileContacts, setEditMode }) => {
       {Object.keys(profile.contacts).map(key => {
         return (
           <div key={key} className={style.formField}>
-            <label className={style.contact}><b>{key}: </b> <input
+            <label onChange={onChangeForm} className={style.contact}><b>{key}: </b> <input
               type="text" {...register('contacts.' + key)}/></label>
             {errors && errors[key] && errors[key].type && (
               <div className={style.errorField}>{errors[key].type}</div>
