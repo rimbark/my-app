@@ -6,13 +6,8 @@ import ProfileContacts from './ProfileBio/ProfileContacts'
 import ContactsEditForm from './ProfileBio/ContactsEditForm'
 
 function ProfileInfo ({
-  profile,
-  status,
-  updateStatus,
-  isOwner,
-  loadPhoto,
-  updateProfileContacts,
-  errorsFromAPI
+  profile, status, updateStatus,
+  isOwner, loadPhoto, updateProfileContacts, errorsFromAPI
 }) {
 
   const [editMode, setEditMode] = useState(false)
@@ -25,15 +20,13 @@ function ProfileInfo ({
     setEditMode(true)
   }
 
-  const onSubmit = async data => {
-    console.log(data)
-    debugger
-    updateProfileContacts(data)
-    debugger
-    if (!errorsFromAPI) {
-      setEditMode(false)
-    }
-  }
+  // const onSubmit = async data => {
+  //   console.log(data)
+  //   updateProfileContacts(data)
+  //   if (!errorsFromAPI) {
+  //     setEditMode(false)
+  //   }
+  // }
 
   const updatePhoto = (e) => {
     if (e.target.files.length)
@@ -58,7 +51,8 @@ function ProfileInfo ({
       {editMode
         ? <ContactsEditForm profile={profile}
                             errorsFromAPI={errorsFromAPI}
-                            onSubmit={onSubmit}/>
+                            updateProfileContacts={updateProfileContacts}
+                            setEditMode={setEditMode}/>
         : <ProfileContacts profile={profile}/>}
     </div>
   )

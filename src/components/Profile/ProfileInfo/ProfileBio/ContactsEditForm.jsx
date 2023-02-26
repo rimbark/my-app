@@ -2,14 +2,27 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import style from './ProfileContact.module.css'
 
-const ContactsEditForm = ({ profile, errorsFromAPI, onSubmit }) => {
+const ContactsEditForm = ({ profile, updateProfileContacts, setEditMode }) => {
   const {
     register,
     handleSubmit,
-    reset
+    reset,
+    setError,
+    formState: {
+      errors
+    }
   } = useForm({
-    mode: 'onSubmit'
   })
+
+  const onSubmit = async data => {
+    console.log(data)
+    const response = await updateProfileContacts(data)
+    if (!response) {
+      setEditMode(false)
+    } else {
+      Object.keys(response).map(key => setError(`${key}`, { type: response[key] }))
+    }
+  }
 
   useEffect(() => {
     reset(profile)
@@ -23,10 +36,15 @@ const ContactsEditForm = ({ profile, errorsFromAPI, onSubmit }) => {
       <label><b>Full name:</b> <input {...register('fullName')} type="text"/></label>
       <label><b>Contacts: </b></label>
       {Object.keys(profile.contacts).map(key => {
-        return <label key={key} className={style.contact}><b>{key}: </b> <input
-          type="text" {...register('contacts.' + key)}/></label>
+        return (
+          <div key={key} className={style.formField}>
+            <label className={style.contact}><b>{key}: </b> <input
+              type="text" {...register('contacts.' + key)}/></label>
+            {errors && errors[key] && errors[key].type && (
+              <div className={style.errorField}>{errors[key].type}</div>
+            )}
+          </div>)
       })}
-      {errorsFromAPI && <div className={style.APIError}>{errorsFromAPI}</div>}
       <input type="submit" value={'update'}/>
     </form>
   )

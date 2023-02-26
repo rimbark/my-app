@@ -1,4 +1,5 @@
 import { profileDataAPI } from '../api/api'
+import { contactsErrorFinder } from '../helpers/contactsErrorFinder'
 
 const ADD_POST = 'ADD_POST'  //  redux-ducks префиксы для неповторения
 export const addPost = (data) => ({ type: ADD_POST, data })
@@ -7,9 +8,8 @@ export const updatePost = (text) => ({ type: UPDATE_POST_BODY, body: text })
 const SET_STATUS = 'SET_STATUS'
 const setStatus = (status) => ({ type: SET_STATUS, status })
 const SET_PROFILE_PHOTO = 'SET_PROFILE_PHOTO'
-const setProfilePhoto = (file) => ({ type: SET_PROFILE_PHOTO, file })
-const SET_ERRORS_FROM_API = 'SET_ERRORS_FROM_API'
-const setErrorsFromAPI = (errors) => ({ type: SET_ERRORS_FROM_API, errors })
+const setProfilePhoto = (file) => ({ type: SET_USER_PROFILE, file })
+
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
 const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 
@@ -36,8 +36,9 @@ export const updateProfileContacts = (profile) => {
     const data = await profileDataAPI.updateUserProfile(profile)
     if (data.resultCode === 0) {
       dispatch(setUserProfile(profile))
+      return data.resultCode
     } else {
-      dispatch(setErrorsFromAPI(data.messages[0]))
+      return contactsErrorFinder(data.messages)
     }
   }
 }
@@ -57,8 +58,7 @@ const initialState = {
   ],
   newPost: '',
   profile: null,
-  status: '',
-  errorsFromAPI: ''
+  status: ''
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -89,12 +89,6 @@ const profileReducer = (state = initialState, action) => {
         }
       }
     }
-    case SET_ERRORS_FROM_API: {
-      return {
-        ...state,
-        errorsFromAPI: action.errors
-        }
-      }
     default:
       return state
   }

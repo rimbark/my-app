@@ -2,12 +2,19 @@
     display: flex;
     flex-direction: column;
     align-items: start;
+    gap: 20px;
+}
+
+.formField {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.errorField {
+    color: red;
 }
 
 .contact {
     padding-left: 10px;
-}
-
-.APIError {
-    color: red;
 }
