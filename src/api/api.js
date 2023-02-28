@@ -63,8 +63,8 @@ export const authDataAPI = {
       .then(response => {
         return response.data})
   },
-  signIn (email, password, rememberMe = false) {
-    return instance.post('auth/login', {email, password, rememberMe})
+  signIn (email, password, rememberMe = false, captcha) {
+    return instance.post('auth/login', {email, password, rememberMe, captcha})
       .then(response => {
         return response.data
       })
@@ -72,5 +72,10 @@ export const authDataAPI = {
   signOut () {
     return instance.delete('auth/login')
   }
+  }
 
+  export const securityAPI = {
+    getCaptchaUrl () {
+      return instance.get('security/get-captcha-url')
+    }
 }

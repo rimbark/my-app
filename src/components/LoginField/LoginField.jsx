@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { logIn, logOut } from '../../redux/authReducer'
 import { Navigate } from 'react-router-dom'
 
-export function LoginField ({logIn, isAuth, serversError}) {
+export function LoginField ({logIn, isAuth, serversError, captchaUrl}) {
 
   const {
     register,
@@ -59,12 +59,22 @@ export function LoginField ({logIn, isAuth, serversError}) {
           {errors?.password && <p>{errors?.password?.message || 'Error!!!'}</p>}
         </div>
         <div>
+          {captchaUrl &&
+            <label className={styles.inputField}>
+              <div>Captcha:</div>
+              <input type="text" {...register('captcha', {
+                required: 'Required to feel'})}/>
+            </label>}
+        </div>
+        <div>
           <input type="checkbox" {...register('rememberMe')}/>
           Remember me
         </div>
         <div>
           <input className={styles.submit} type="submit" disabled={!isValid}/>
         </div>
+        {captchaUrl &&
+        <div><img src={captchaUrl} alt=""/></div>}
         {serversError &&
           <div>{serversError}</div>
         }
@@ -75,7 +85,8 @@ export function LoginField ({logIn, isAuth, serversError}) {
 
 const mapStateToProps = (state) => ({
   isAuth: state.authReducer.isAuth,
-  serversError: state.authReducer.serversError
+  serversError: state.authReducer.serversError,
+  captchaUrl: state.authReducer.captchaUrl
 })
 
 export default connect(mapStateToProps, { logIn, logOut })(LoginField)
