@@ -14,7 +14,6 @@ export function MessageForm (props) {
     mode: 'onBlur'
   })
   const onSubmit = (data) => {
-    console.log(data)
     props.addMessage(data)
     reset()
   }

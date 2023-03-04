@@ -2,11 +2,17 @@ import React from 'react'
 import style from '../Users/User/User.module.css'
 import { createPages } from '../Users/pagesCreator'
 
-const Paginator = ({totalUsersCount, pageSize, currentPage, onPageChanged}) => {
+type PropsType = {
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (pageNumber: number) => void
+}
+const Paginator: React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, onPageChanged}) => {
 
-  let pagesCount = Math.ceil(totalUsersCount / pageSize)
+  const pagesCount = Math.ceil(totalUsersCount / pageSize)
 
-  let pages = []
+  const pages: Array<number> = []
 
   createPages(pages, pagesCount, currentPage)
 

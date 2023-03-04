@@ -21,7 +21,6 @@ export function LoginField ({logIn, isAuth, serversError, captchaUrl}) {
   })
 
   const onSubmit = async data => {
-    console.log(data)
     logIn(data)
     reset()
   }

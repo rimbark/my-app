@@ -1,7 +1,22 @@
-export const ADD_MESSAGE = 'ADD_MESSAGE'
-export const addMessage = (data) => ({ type: ADD_MESSAGE, data })
+const ADD_MESSAGE = 'ADD_MESSAGE'
+type AddMessageActionType = {
+  type: typeof ADD_MESSAGE
+  data: string
+}
+export const addMessage = (data: string): AddMessageActionType => ({ type: ADD_MESSAGE, data })
 
-let initialState = {
+type DialogType = {
+  id: number
+  name: string
+  avatar: string
+}
+
+type MessageType = {
+  id: number
+  message: string
+}
+
+const initialState = {
   dialogs: [
     {
       id: 1,
@@ -28,18 +43,17 @@ let initialState = {
       name: 'Leha',
       avatar: 'https://avatars.mds.yandex.net/i?id=0297873aba115dd8d397a97bafcaeca6f4949e07-8196573-images-thumbs&n=13'
     }
-  ],
+  ] as Array<DialogType>,
   messages: [
     { id: 1, message: 'Hi! Vasya' },
     { id: 2, message: 'Hello! Big Loh' },
     { id: 3, message: 'Yo! Los' },
     { id: 4, message: 'Nu darova' },
     { id: 5, message: 'Davay poka' }
-  ],
-  newOutputMessage: ''
+  ] as Array<MessageType>
 }
 
-const messagesReducer = (state = initialState, action) => {
+const messagesReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case ADD_MESSAGE: {
       return {

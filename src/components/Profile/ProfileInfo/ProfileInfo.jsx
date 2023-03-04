@@ -20,14 +20,6 @@ function ProfileInfo ({
     setEditMode(true)
   }
 
-  // const onSubmit = async data => {
-  //   console.log(data)
-  //   updateProfileContacts(data)
-  //   if (!errorsFromAPI) {
-  //     setEditMode(false)
-  //   }
-  // }
-
   const updatePhoto = (e) => {
     if (e.target.files.length)
       loadPhoto(e.target.files[0])
@@ -44,7 +36,7 @@ function ProfileInfo ({
           ? 'https://avatars.mds.yandex.net/i?id=7406b5bf2010aace1c9c3d0381c45881f703f689-6250997-images-thumbs&n=13'
           : profile.photos.large}/>
       </div>
-      <StatusProfile isOwner={isOwner} status={status} updateStatus={updateStatus}/>
+      <StatusProfile isOwner={isOwner} statusFromProps={status} updateStatus={updateStatus}/>
       {isOwner
         && !editMode
         && <button onClick={onUpdateContacts}>Update contacts</button>}

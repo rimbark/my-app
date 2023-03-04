@@ -1,4 +1,10 @@
-let initialState = {
+type FriendsType = {
+  id: number
+  name: string
+  avatar: string
+}
+
+const initialState = {
   friends: [
     {
       id: 1,
@@ -25,9 +31,11 @@ let initialState = {
       name: 'Leha',
       avatar: 'https://avatars.mds.yandex.net/i?id=0297873aba115dd8d397a97bafcaeca6f4949e07-8196573-images-thumbs&n=13'
     }
-  ]
+  ] as Array<FriendsType>
 }
 
-let friendsReducer = (state = initialState, action) => { return state }
+type InitialStateType = typeof initialState
+
+const friendsReducer = (state = initialState, action: any): InitialStateType => { return state }
 
 export default friendsReducer
